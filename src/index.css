@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-farol-navy: #0F172A;
+  --color-farol-navy-dark: #090D1A;
+  --color-farol-navy-light: #1E293B;
+  --color-farol-emerald: #10B981;
+  --color-farol-emerald-dark: #059669;
+  --color-farol-cream: #FAF9F5;
+  --color-farol-soft: #F4F2EB;
+  --color-farol-amber: #D97706;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-slate-800 bg-farol-cream antialiased selection:bg-farol-emerald/20 selection:text-farol-navy;
+  }
+}
+
+/* Supporting texts & description accessibility rules (prevents ultra-thin gray text) */
+p, 
+span.text-slate-500, 
+span.text-slate-600, 
+p.text-slate-500, 
+p.text-slate-600, 
+p.text-slate-400,
+p.text-slate-300,
+li, 
+div.text-slate-500,
+div.text-slate-600 {
+  font-weight: 500;
+}
+
+/* Specific Mobile Typography Scale & Accessibility Boost */
+@media (max-width: 768px) {
+  /* Scale up text on mobile across the entire app, including popups */
+  html {
+    font-size: 112% !important; /* Increases all rem/em sizes globally on mobile by 12% */
+  }
+
+  /* Make sure supporting text, paragraphs and lists below titles are high contrast */
+  p:not(.text-white):not(.text-slate-100):not(.text-slate-200):not(.text-slate-300):not(.text-emerald-400):not(.text-emerald-300),
+  blockquote,
+  .text-slate-500,
+  .text-slate-600,
+  .text-slate-400,
+  .text-gray-500,
+  .text-gray-600 {
+    font-weight: 500;
+    color: #1e293b;
+  }
+
+  /* Target standard list items for high contrast while preserving styled ones */
+  li:not(.text-premium-green):not(.text-premium-gold):not(.text-white):not(.text-slate-100):not(.text-slate-200):not(.text-slate-300) {
+    font-weight: 500;
+    color: #1e293b;
+  }
+
+  /* Maintain readable white/light text contrast inside dark elements like farol-navy cards or footer */
+  .bg-farol-navy p,
+  .bg-farol-navy span:not(.text-emerald-400):not(.text-emerald-500),
+  .bg-farol-navy li,
+  .bg-farol-navy-dark p,
+  .bg-farol-navy-dark span:not(.text-emerald-400):not(.text-emerald-500),
+  .bg-farol-navy-dark li,
+  .bg-slate-900 p,
+  .bg-slate-900 span:not(.text-emerald-400):not(.text-emerald-500),
+  .bg-slate-900 li,
+  .bg-slate-800 p,
+  .bg-slate-800 span:not(.text-emerald-400):not(.text-emerald-500),
+  .bg-slate-800 li,
+  footer p,
+  footer span,
+  footer li {
+    color: #f8fafc;
+    font-weight: 500;
+  }
+}
+
+/* Community stars styling (guarantees a beautiful star yellow/gold ⭐ color) */
+.community-stars span,
+.community-star,
+span.community-star {
+  color: #ffcc00 !important; /* Authentic gold-yellow star color */
+  text-shadow: 0 0 6px rgba(253, 224, 71, 0.7) !important;
+  font-weight: 800 !important;
+}
+
+/* Green pulsing 37,90 text */
+@keyframes pulse-emerald-glow {
+  0%, 100% {
+    color: #34d399 !important; /* bright emerald-400 */
+    text-shadow: 0 0 4px rgba(52, 211, 153, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    color: #6ee7b7 !important; /* neon emerald-300 */
+    text-shadow: 0 0 16px rgba(110, 231, 183, 1), 0 0 28px rgba(52, 211, 153, 0.6);
+    transform: scale(1.04);
+  }
+}
+.price-pulse-emerald {
+  display: inline-block;
+  animation: pulse-emerald-glow 2.2s ease-in-out infinite !important;
+}
+
+/* Premium Card text elements: High Contrast & Bolder colors */
+.text-premium-green, 
+.text-premium-green span {
+  color: #34d399 !important; /* elegant vivid green */
+  font-weight: 700 !important;
+}
+.text-premium-gold,
+.text-premium-gold span {
+  color: #fbbf24 !important; /* elegant bright yellow gold */
+  font-weight: 700 !important;
+  text-shadow: 0 0 3px rgba(251, 191, 36, 0.2);
+}
+
+/* CTA Buttons Pulsing Animation */
+@keyframes cta-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 20px 35px -5px rgba(16, 185, 129, 0.6), 0 12px 16px -6px rgba(16, 185, 129, 0.6);
+  }
+}
+.animate-cta-pulse {
+  animation: cta-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+.animate-cta-pulse:hover {
+  animation-play-state: paused !important;
+  transform: scale(1.05) !important;
+}
+
+/* Trust cards styling with emerald background */
+.bg-trust-green {
+  background-color: #047857 !important; /* Deep emerald-700 for maximum confidence/trust and accessibility */
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+}
+.bg-trust-green span,
+.bg-trust-green p,
+.bg-trust-green li {
+  color: #ffffff !important; /* Force pristine white text */
+  font-weight: 700 !important;
+}
+.bg-trust-green .text-emerald-100 {
+  color: #d1fae5 !important; /* Soft legible sage green */
+  font-weight: 600 !important;
+}
+
+/* Custom Soft Pulsing Animations */
+@keyframes soft-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.4;
+    filter: blur(40px);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+    filter: blur(60px);
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 4s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "Protocolo FAROL",
+  "description": "Sistema de acompanhamento e desenvolvimento infantil para professoras de Educação Infantil",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
