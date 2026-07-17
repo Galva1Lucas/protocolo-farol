@@ -53,6 +53,48 @@ export default function App() {
     return `${url}${separator}${cleanSearch}`;
   };
 
+  const trackUtmifyPurchase = async (name: string, email: string, planName: string, price: number) => {
+    if (typeof window === 'undefined') return;
+
+    const [firstName = '', ...rest] = name.trim().split(/\s+/);
+    const lastName = rest.join(' ');
+    const eventId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const endpoint = window.location.hostname === 'localhost'
+      ? 'http://localhost:3001/tracking/v1/events'
+      : 'https://tracking.utmify.com.br/tracking/v1/events';
+
+    const payload = {
+      type: 'Purchase',
+      lead: {
+        pixelId: window.pixelId || '6a5992113550a8b64c50e198',
+        firstName,
+        lastName,
+        email,
+        userAgent: navigator.userAgent,
+        parameters: window.location.search,
+        locale: navigator.language,
+      },
+      event: {
+        _id: eventId,
+        pageTitle: document.title,
+        sourceUrl: window.location.href,
+        planName,
+        value: price,
+      },
+      sendWebEvents: true,
+    };
+
+    try {
+      await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.warn('UTMify purchase tracking failed', error);
+    }
+  };
+
   // Live countdown timer state (starts at 10 hours, 5 minutes, 20 seconds)
   const [timeLeft, setTimeLeft] = useState(36320); // in seconds
   
@@ -281,9 +323,10 @@ export default function App() {
     e.preventDefault();
     if (!customerName || !customerEmail) return;
     setIsSubmitting(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsSubmitting(false);
       setCheckoutSuccess(true);
+      await trackUtmifyPurchase(customerName, customerEmail, activePlan.name, activePlan.price);
     }, 1500);
   };
 
